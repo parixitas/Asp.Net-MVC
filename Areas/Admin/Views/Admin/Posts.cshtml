@@ -1,0 +1,33 @@
+﻿@model  List<Sample.Models.tbl_Post>
+@{
+    ViewBag.Title = "Posts";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+<style>
+    .cardbrd {
+        border: 1px solid rgba(0,0,0,.125);
+        border-radius: .25rem;
+     
+        margin-bottom: 15px;
+    }
+</style>
+<h2>Posts</h2>
+<div class="row">
+    @foreach (var post in Model)
+    {
+
+        <div class="col-md-4 cardbrd">
+            <div class="card">
+               
+                    <img class="card-img-top" src="@post.Image" alt="Card image cap" height="200" width="100%">
+              
+              
+                    <div class="card-block">
+                        <h4 class="card-title">@post.Title</h4>
+                        <p class="card-text">@post.Description</p>
+
+                    </div>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,97 @@
+﻿@model Sample.Models.tbl_Post
+@{
+    ViewBag.Title = "addpost";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Add Post</h2>
+
+@using (Html.BeginForm(null,null, FormMethod.Post, new { @class = "form-horizontal", role = "form" , name = "registerform1", id = "registerform1", enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
+  
+    <hr />
+    <input type="hidden" name="Id" id="Id"  value="@Session["UserId"]"/>
+    
+    <div class="form-group">
+        @Html.LabelFor(m => m.Title, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Title, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Title, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Image, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            <input type="file" class="form-control input-lg" style="padding-bottom: 50px;" id="postimg" name="postimg">
+          
+         </div>
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" class="btn btn-default" value="Post"  id="addpost"/>
+        </div>
+    </div>
+}
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+    $("#registerform1").submit(function () {
+        if ($('#registerform1').valid())
+        {
+            var Title = $('#Title').val().trim();
+            var Description = $('#Description').val().trim();
+            var UserId = @Session["UserId"];
+          
+
+            var data = new FormData();
+            var files = $("#postimg").get(0).files;
+
+            if (files.length > 0) {
+                data.append("Image", files[0]);
+            }
+
+            data.append("Description", Description);
+            data.append("Title", Title);
+          
+            data.append("UserId", UserId);
+
+            $.ajax({
+                url: '/api/SampleApi/addPost',
+                type: 'POST',
+                data: data,
+                dataType: 'json',
+                processData: false,
+                contentType: false,
+                success: function (d) {
+                  
+                    if (d.code == 0) {
+                      
+
+                        window.location.href = "/Home/Home";
+                    }
+                    if (d.code == 1) {
+                        window.location.href = "/Home/addpost";
+                    }
+                    if (d.code == -1) {
+                        window.location.href = "/Home/addpost";
+                    }
+                  
+                },
+                error: function () {
+                    $('#ErrorMsg').html('<div class="failed">Error! Please try again.</div>');
+                }
+            });
+            return false;
+        }
+        
+    });
+</script>
+
+

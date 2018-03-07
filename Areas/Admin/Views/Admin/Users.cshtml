@@ -1,0 +1,59 @@
+﻿@model  List<Sample.Models.tbl_User>
+@{
+    ViewBag.Title = "Users";
+    Layout = "~/Areas/Admin/Views/Shared/_layout.cshtml";
+}
+
+<div class="box">
+    <div class="box-header">
+        <h3 class="box-title">Users Details</h3>
+    </div>
+    <!-- /.box-header -->
+    <div class="box-body">
+        <table id="example1" class="table table-bordered table-striped">
+            <thead>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Email</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+              @foreach (var u in Model)
+              {
+                  <tr>
+                      <td>@u.FirstName</td>
+                      <td>@u.LastName</td>
+                      <td>@u.Email</td>
+                  </tr>
+              }
+
+            </tbody>
+            <tfoot>
+                <tr>
+                    <th>FirstName</th>
+                    <th>LastName</th>
+                    <th>Email</th>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- /.box-body -->
+</div>
+<!-- /.box -->
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script type="text/javascript">
+  $(function () {
+   
+    $('#example1').DataTable({
+      "paging": true,
+      "lengthChange": true,
+      "searching": true,
+      "ordering": true,
+      "info": true,
+      "autoWidth": false
+    });
+  });
+</script>
+      
